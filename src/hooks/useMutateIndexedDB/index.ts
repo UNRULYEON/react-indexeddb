@@ -1,0 +1,1 @@
+export { useMutateIndexedDB } from './useMutateIndexedDB';
