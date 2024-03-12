@@ -1,1 +1,1 @@
-export { useIndexedDB } from './useIndexedDB';
+export { useIndexedDB } from "./useIndexedDB";

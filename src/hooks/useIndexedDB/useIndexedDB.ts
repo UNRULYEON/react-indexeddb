@@ -1,6 +1,6 @@
-import { useContext, useState, useCallback, useEffect } from 'react';
-import { Key, Get, GetAll } from '@/types';
-import { IndexedDBContext } from '@/contexts/IndexedDBProvider';
+import { useContext, useState, useCallback, useEffect } from "react";
+import { Key, Get, GetAll } from "@/types";
+import { IndexedDBContext } from "@/contexts/IndexedDBProvider";
 
 type Options = {
   enabled: boolean;
@@ -21,7 +21,7 @@ export const useIndexedDB = <T>({
   const context = useContext(IndexedDBContext);
 
   if (!context)
-    throw new Error('useIndexedDB must be used within an IndexedDBProvider');
+    throw new Error("useIndexedDB must be used within an IndexedDBProvider");
 
   const [data, setData] = useState<T | undefined>(undefined);
 
@@ -32,7 +32,7 @@ export const useIndexedDB = <T>({
 
         const transaction = (context.db as IDBDatabase).transaction(
           name,
-          'readonly'
+          "readonly",
         );
         const store = transaction.objectStore(name);
 
@@ -47,7 +47,7 @@ export const useIndexedDB = <T>({
         };
       });
     },
-    [context.db, name]
+    [context.db, name],
   );
 
   const getAll = useCallback(() => {
@@ -56,7 +56,7 @@ export const useIndexedDB = <T>({
 
       const transaction = (context.db as IDBDatabase).transaction(
         name,
-        'readonly'
+        "readonly",
       );
       const store = transaction.objectStore(name);
 

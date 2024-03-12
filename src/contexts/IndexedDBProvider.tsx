@@ -1,17 +1,17 @@
-import { ReactNode, createContext, useEffect, useRef, useState } from 'react';
-import { IndexedDBConfig, InvalidateCallback, Key } from '@/types';
+import { ReactNode, createContext, useEffect, useRef, useState } from "react";
+import { IndexedDBConfig, InvalidateCallback, Key } from "@/types";
 
 type IndexedDBState = {
   db: IDBDatabase | undefined;
   registerInvalidationCallback: (
     keys: Key,
-    callback: InvalidateCallback
+    callback: InvalidateCallback,
   ) => void;
   invalidateKeys: (keys: Key) => void;
 };
 
 export const IndexedDBContext = createContext<IndexedDBState | undefined>(
-  undefined
+  undefined,
 );
 
 type IndexedDBProps = {
@@ -31,19 +31,19 @@ export const IndexedDBProvider = ({ config, children }: IndexedDBProps) => {
     if (!db) return;
 
     db.onerror = (event) => {
-      console.error('indexeddb error', event);
+      console.error("indexeddb error", event);
     };
 
     db.onabort = (event) => {
-      console.error('indexeddb abort', event);
+      console.error("indexeddb abort", event);
     };
 
     db.onclose = (event) => {
-      console.error('indexeddb close', event);
+      console.error("indexeddb close", event);
     };
   }, [db]);
 
-  const initialise = (config: IndexedDBProps['config']) => {
+  const initialise = (config: IndexedDBProps["config"]) => {
     const { name, version } = config;
 
     const request = indexedDB.open(name, version);
@@ -55,7 +55,7 @@ export const IndexedDBProvider = ({ config, children }: IndexedDBProps) => {
       config.objectStores.forEach((objectStore) => {
         const store = db.createObjectStore(
           objectStore.name,
-          objectStore.options
+          objectStore.options,
         );
 
         objectStore.indices?.forEach((index) => {
@@ -65,7 +65,7 @@ export const IndexedDBProvider = ({ config, children }: IndexedDBProps) => {
     };
 
     request.onerror = (event) => {
-      console.error('Error opening IndexedDB', event);
+      console.error("Error opening IndexedDB", event);
     };
 
     request.onsuccess = (event) => {
@@ -76,7 +76,7 @@ export const IndexedDBProvider = ({ config, children }: IndexedDBProps) => {
 
   const registerInvalidationCallback = (
     keys: Key,
-    callback: InvalidateCallback
+    callback: InvalidateCallback,
   ) => {
     const keysString = JSON.stringify(keys);
 
