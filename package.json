@@ -1,5 +1,5 @@
 {
-  "name": "react-indexeddb",
+  "name": "@unrulyeon/react-indexeddb",
   "version": "1.0.0",
   "description": "React Hooks for IndexedDB",
   "author": "Amar Kisoensingh",

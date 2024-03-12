@@ -23,10 +23,10 @@ bun link
 ### Installing the link in a project
 
 ```bash
-npm link react-indexeddb
-yarn link react-indexeddb
-pnpm link --global react-indexeddb
-bun link react-indexeddb
+npm link @unrulyeon/react-indexeddb
+yarn link @unrulyeon/react-indexeddb
+pnpm link --global @unrulyeon/react-indexeddb
+bun link @unrulyeon/react-indexeddb
 ```
 
 ### ⌘ Commands
