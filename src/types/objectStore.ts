@@ -1,15 +1,15 @@
 export type ObjectStore = {
-  name: string;
-  options?: IDBObjectStoreParameters;
+  name: string
+  options?: IDBObjectStoreParameters
   indices?: {
-    name: string;
-    keyPath: string;
-    options?: IDBIndexParameters;
-  }[];
-};
+    name: string
+    keyPath: string
+    options?: IDBIndexParameters
+  }[]
+}
 
 export type IndexedDBConfig = {
-  name: string;
-  version: number;
-  objectStores: ObjectStore[];
-};
+  name: string
+  version: number
+  objectStores: ObjectStore[]
+}

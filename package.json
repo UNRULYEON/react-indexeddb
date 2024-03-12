@@ -14,13 +14,21 @@
   "scripts": {
     "dev": "bunchee --watch",
     "build": "bunchee",
-    "format": "prettier . --check",
+    "lint:check": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint --fix . --ext ts,tsx",
+    "format:check": "prettier . --check",
     "format:fix": "prettier . --write",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@types/react": "^18.2.64",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
     "bunchee": "^4.4.8",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "3.2.5",
     "react": "^18.2.0",
     "typescript": "^5.4.2"

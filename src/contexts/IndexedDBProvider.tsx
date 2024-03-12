@@ -1,99 +1,99 @@
-import { ReactNode, createContext, useEffect, useRef, useState } from "react";
-import { IndexedDBConfig, InvalidateCallback, Key } from "@/types";
+import { ReactNode, createContext, useEffect, useRef, useState } from 'react'
+import { IndexedDBConfig, InvalidateCallback, Key } from '@/types'
 
 type IndexedDBState = {
-  db: IDBDatabase | undefined;
+  db: IDBDatabase | undefined
   registerInvalidationCallback: (
     keys: Key,
     callback: InvalidateCallback,
-  ) => void;
-  invalidateKeys: (keys: Key) => void;
-};
+  ) => void
+  invalidateKeys: (keys: Key) => void
+}
 
 export const IndexedDBContext = createContext<IndexedDBState | undefined>(
   undefined,
-);
+)
 
 type IndexedDBProps = {
-  config: IndexedDBConfig;
-  children: ReactNode;
-};
+  config: IndexedDBConfig
+  children: ReactNode
+}
 
 export const IndexedDBProvider = ({ config, children }: IndexedDBProps) => {
-  const [db, setDb] = useState<IDBDatabase | undefined>(undefined);
-  const keyManager = useRef(new Map<string, InvalidateCallback[]>());
+  const [db, setDb] = useState<IDBDatabase | undefined>(undefined)
+  const keyManager = useRef(new Map<string, InvalidateCallback[]>())
 
   useEffect(() => {
-    if (!db) initialise(config);
-  }, [db]);
+    if (!db) initialise(config)
+  }, [db])
 
   useEffect(() => {
-    if (!db) return;
+    if (!db) return
 
     db.onerror = (event) => {
-      console.error("indexeddb error", event);
-    };
+      console.error('indexeddb error', event)
+    }
 
     db.onabort = (event) => {
-      console.error("indexeddb abort", event);
-    };
+      console.error('indexeddb abort', event)
+    }
 
     db.onclose = (event) => {
-      console.error("indexeddb close", event);
-    };
-  }, [db]);
+      console.error('indexeddb close', event)
+    }
+  }, [db])
 
-  const initialise = (config: IndexedDBProps["config"]) => {
-    const { name, version } = config;
+  const initialise = (config: IndexedDBProps['config']) => {
+    const { name, version } = config
 
-    const request = indexedDB.open(name, version);
+    const request = indexedDB.open(name, version)
 
     request.onupgradeneeded = (event) => {
-      // @ts-ignore
-      const db = event.target.result as IDBDatabase;
+      // @ts-expect-error - TS doesn't know about the correct type
+      const db = event.target.result as IDBDatabase
 
       config.objectStores.forEach((objectStore) => {
         const store = db.createObjectStore(
           objectStore.name,
           objectStore.options,
-        );
+        )
 
         objectStore.indices?.forEach((index) => {
-          store.createIndex(index.name, index.keyPath, index.options);
-        });
-      });
-    };
+          store.createIndex(index.name, index.keyPath, index.options)
+        })
+      })
+    }
 
     request.onerror = (event) => {
-      console.error("Error opening IndexedDB", event);
-    };
+      console.error('Error opening IndexedDB', event)
+    }
 
     request.onsuccess = (event) => {
-      // @ts-ignore
-      setDb(event.target.result);
-    };
-  };
+      // @ts-expect-error - TS doesn't know about the correct type
+      setDb(event.target.result)
+    }
+  }
 
   const registerInvalidationCallback = (
     keys: Key,
     callback: InvalidateCallback,
   ) => {
-    const keysString = JSON.stringify(keys);
+    const keysString = JSON.stringify(keys)
 
     if (!keyManager.current.has(keysString)) {
-      keyManager.current.set(keysString, []);
+      keyManager.current.set(keysString, [])
     }
 
-    keyManager.current.get(keysString)?.push(callback);
-  };
+    keyManager.current.get(keysString)?.push(callback)
+  }
 
   const invalidateKeys = (keys: Key) => {
-    const keysString = JSON.stringify(keys);
+    const keysString = JSON.stringify(keys)
 
-    if (!keyManager.current.has(keysString)) return;
+    if (!keyManager.current.has(keysString)) return
 
-    keyManager.current.get(keysString)?.forEach((callback) => callback());
-  };
+    keyManager.current.get(keysString)?.forEach((callback) => callback())
+  }
 
   return (
     <IndexedDBContext.Provider
@@ -101,7 +101,7 @@ export const IndexedDBProvider = ({ config, children }: IndexedDBProps) => {
     >
       {children}
     </IndexedDBContext.Provider>
-  );
-};
+  )
+}
 
-export default IndexedDBProvider;
+export default IndexedDBProvider

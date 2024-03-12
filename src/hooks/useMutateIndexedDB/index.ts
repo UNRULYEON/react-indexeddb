@@ -1,1 +1,1 @@
-export { useMutateIndexedDB } from "./useMutateIndexedDB";
+export { useMutateIndexedDB } from './useMutateIndexedDB'
