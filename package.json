@@ -18,6 +18,8 @@
     "lint:fix": "eslint --fix . --ext ts,tsx",
     "format:check": "prettier . --check",
     "format:fix": "prettier . --write",
+    "clean": "rimraf ./dist",
+    "prepublishOnly": "pnpm clean && pnpm build",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -29,8 +31,10 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.34.0",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^9.0.11",
     "prettier": "3.2.5",
     "react": "^18.2.0",
+    "rimraf": "^5.0.5",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
