@@ -1,0 +1,58 @@
+{
+  "name": "@unrulyeon/react-indexeddb",
+  "version": "1.0.0",
+  "description": "React Hooks for IndexedDB",
+  "author": "Amar Kisoensingh",
+  "repository": "github:UNRULYEON/react-indexeddb",
+  "keywords": [
+    "react",
+    "hooks",
+    "indexeddb"
+  ],
+  "main": "./dist/cjs/index.js",
+  "scripts": {
+    "dev": "bunchee --watch",
+    "build": "bunchee",
+    "lint:check": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint --fix . --ext ts,tsx",
+    "format:check": "prettier . --check --ignore-path ../../.prettierignore",
+    "format:fix": "prettier . --write --ignore-path ../../.prettierignore",
+    "clean": "rimraf ./dist",
+    "prepublishOnly": "pnpm clean && pnpm build",
+    "publish": "pnpm publish --access=public",
+    "pre-commit": "npx lint-staged"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.64",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "bunchee": "^4.4.8",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "react": "^18.2.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.2"
+  },
+  "peerDependencies": {
+    "react": "^16.11.0 || ^17.0.0 || ^18.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/es/index.mjs",
+  "types": "./dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/es/index.d.mts",
+        "default": "./dist/es/index.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  }
+}

@@ -2,19 +2,23 @@
   "name": "react-indexeddb",
   "private": true,
   "scripts": {
-    "build": "turbo build",
     "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "build": "turbo build",
+    "lint:check": "turbo lint:check",
+    "lint:fix": "turbo lint:fix",
+    "format:check": "turbo format:check",
+    "format:fix": "turbo format:fix",
+    "pre-commit": "pnpm run --filter \"*\" pre-commit",
+    "prepare": "husky install",
+    "publish": "cd packages/react-indexeddb && pnpm publish"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@8.9.0",
+  "packageManager": "pnpm@8.10.3",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }
