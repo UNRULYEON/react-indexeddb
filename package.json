@@ -1,60 +1,20 @@
 {
-  "name": "@unrulyeon/react-indexeddb",
-  "version": "1.0.0",
-  "description": "React Hooks for IndexedDB",
-  "author": "Amar Kisoensingh",
-  "repository": "github:UNRULYEON/react-indexeddb",
-  "keywords": [
-    "react",
-    "hooks",
-    "indexeddb"
-  ],
-  "packageManager": "pnpm@8.10.3",
-  "main": "./dist/cjs/index.js",
+  "name": "react-indexeddb",
+  "private": true,
   "scripts": {
-    "dev": "bunchee --watch",
-    "build": "bunchee",
-    "lint:check": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint --fix . --ext ts,tsx",
-    "format:check": "prettier . --check",
-    "format:fix": "prettier . --write",
-    "clean": "rimraf ./dist",
-    "prepublishOnly": "pnpm clean && pnpm build",
-    "prepare": "husky install"
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@types/react": "^18.2.64",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
-    "bunchee": "^4.4.8",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.34.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^9.0.11",
-    "prettier": "3.2.5",
-    "react": "^18.2.0",
-    "rimraf": "^5.0.5",
-    "typescript": "^5.4.2"
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "prettier": "^3.2.5",
+    "turbo": "latest"
   },
-  "peerDependencies": {
-    "react": "^16.11.0 || ^17.0.0 || ^18.0.0"
-  },
-  "files": [
-    "dist"
-  ],
-  "module": "./dist/es/index.mjs",
-  "types": "./dist/cjs/index.d.ts",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/es/index.d.mts",
-        "default": "./dist/es/index.mjs"
-      },
-      "require": {
-        "types": "./dist/cjs/index.d.ts",
-        "default": "./dist/cjs/index.js"
-      }
-    }
+  "packageManager": "pnpm@8.9.0",
+  "engines": {
+    "node": ">=18"
   }
 }

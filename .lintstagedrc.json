@@ -1,4 +1,0 @@
-{
-  "*.{ts,tsx}": "eslint --ext ts,tsx",
-  "*.{ts,tsx,json,md,yml}": "prettier --check"
-}
