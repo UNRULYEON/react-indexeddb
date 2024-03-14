@@ -20,11 +20,8 @@
     "pre-commit": "pnpm run --filter \"*\" pre-commit",
     "publish-packages": "turbo run build lint:check format:check && changeset version && changeset publish"
   },
-  "dependencies": {
-    "@changesets/cli": "^2.27.1"
-  },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
