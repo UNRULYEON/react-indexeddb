@@ -1,5 +1,13 @@
 {
   "name": "react-indexeddb",
+  "description": "React Hooks for IndexedDB",
+  "author": "Amar Kisoensingh",
+  "repository": "github:UNRULYEON/react-indexeddb",
+  "keywords": [
+    "react",
+    "hooks",
+    "indexeddb"
+  ],
   "private": true,
   "scripts": {
     "dev": "turbo dev",
@@ -8,9 +16,12 @@
     "lint:fix": "turbo lint:fix",
     "format:check": "turbo format:check",
     "format:fix": "turbo format:fix",
-    "pre-commit": "pnpm run --filter \"*\" pre-commit",
     "prepare": "husky install",
-    "publish": "cd packages/react-indexeddb && pnpm publish"
+    "pre-commit": "pnpm run --filter \"*\" pre-commit",
+    "publish-packages": "turbo run build lint:check format:check && changeset version && changeset publish"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.27.1"
   },
   "devDependencies": {
     "husky": "^9.0.11",

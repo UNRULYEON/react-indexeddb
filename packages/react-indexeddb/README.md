@@ -1,0 +1,87 @@
+# react-indexeddb
+
+React hooks to use IndexedDB.
+
+## Quick start
+
+Wrap your application with `IndexedDBProvider` and provide your configuration to it:
+
+```tsx
+import { useIndexedDB, IndexedDBConfig } from '@unrulyeon/react-indexeddb'
+
+export const indexedDBConfig: IndexedDBConfig = {
+  name: 'todos-app',
+  version: 1,
+  objectStores: [
+    {
+      name: 'todos',
+      options: {
+        keyPath: 'id',
+        autoIncrement: true,
+      },
+      indices: [
+        { name: 'title', keyPath: 'title', options: { unique: false } },
+      ],
+    },
+  ],
+}
+
+const App = () => {
+  return (
+    <IndexedDBProvider config={indexedDBConfig}>
+      <TheRestOfYourApplication />
+    </IndexedDBProvider>
+  )
+}
+```
+
+Now you can use the `useIndexedDB` hook to retrieve and `useMutateIndexedDB` to mutate data:
+
+```tsx
+import { useIndexedDB, useMutateIndexedDB } from '@unrulyeon/react-indexeddb'
+
+type Todo = {
+  id: number
+  title: string
+}
+
+type NewTodo = Omit<Todo, 'id'>
+
+const Todos = () => {
+  const { data: todos } = useIndexedDB<Todo>({
+    name: 'todos',
+    key: ['todos'],
+    fn: ({ getAll }) => getAll(),
+  })
+
+  const {
+    put: updateTodo,
+    remove: remoteTodo,
+    invalidate,
+  } = useMutateIndexedDB<NewTodo, Todo>({
+    name: 'todos',
+  })
+
+  const addTodo = async (todo: NewTodo) => {
+    await updateTodo(todo)
+    invalidate(['todos'])
+  }
+
+  const deleteTodo = async (id: number) => {
+    await remoteTodo(id)
+    invalidate(['todos'])
+  }
+
+  return (
+    <div>
+      {todos?.map((todo) => (
+        <div key={todo.id}>
+          <span>{todo.title}</span>
+          <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+        </div>
+      ))}
+      <button onClick={() => addTodo({ title: 'New todo' })}>Add</button>
+    </div>
+  )
+}
+```

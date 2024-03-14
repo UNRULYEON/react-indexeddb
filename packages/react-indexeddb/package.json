@@ -1,6 +1,6 @@
 {
   "name": "@unrulyeon/react-indexeddb",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "React Hooks for IndexedDB",
   "author": "Amar Kisoensingh",
   "repository": "github:UNRULYEON/react-indexeddb",
@@ -19,7 +19,6 @@
     "format:fix": "prettier . --write --ignore-path ../../.prettierignore",
     "clean": "rimraf ./dist",
     "prepublishOnly": "pnpm clean && pnpm build",
-    "publish": "pnpm publish --access=public",
     "pre-commit": "npx lint-staged"
   },
   "devDependencies": {
