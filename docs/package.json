@@ -1,9 +1,11 @@
 {
-  "name": "docs",
+  "name": "@unrulyeon/docs",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format:check": "prettier . --check --ignore-path ../.prettierignore",
+    "format:fix": "prettier . --write --ignore-path ../.prettierignore"
   },
   "dependencies": {
     "next": "^13.0.6",

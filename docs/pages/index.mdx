@@ -4,36 +4,20 @@ title: Getting started
 
 import { Callout, Tabs, Tab } from 'nextra-theme-docs'
 
-
 # Getting started
 
 ## Installation
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
-  <Tab>
-    ```bash copy
-    pnpm add @unrulyeon/react-indexeddb
-    ```
-  </Tab>
-  <Tab>
-    ```bash copy
-    npm i @unrulyeon/react-indexeddb
-    ```
-  </Tab>
-  <Tab>
-    ```bash copy
-    yarn add @unrulyeon/react-indexeddb
-    ```
-  </Tab>
-  <Tab>
-    ```bash copy
-    bun add @unrulyeon/react-indexeddb
-    ```
-  </Tab>
+  <Tab>```bash copy pnpm add @unrulyeon/react-indexeddb ```</Tab>
+  <Tab>```bash copy npm i @unrulyeon/react-indexeddb ```</Tab>
+  <Tab>```bash copy yarn add @unrulyeon/react-indexeddb ```</Tab>
+  <Tab>```bash copy bun add @unrulyeon/react-indexeddb ```</Tab>
 </Tabs>
 
 <Callout emoji="ℹ️">
-  The package is part of the `@unrulyeon` scope because otherwise we couldn't use the name `react-indexeddb`.
+  The package is part of the `@unrulyeon` scope because otherwise we couldn't
+  use the name `react-indexeddb`.
 </Callout>
 
 ## Quick start
@@ -56,8 +40,8 @@ export const indexedDBConfig: IndexedDBConfig = {
       indices: [
         { name: 'title', keyPath: 'title', options: { unique: false } },
       ],
-    }
-  ]
+    },
+  ],
 }
 
 const App = () => {
@@ -85,7 +69,7 @@ const Todos = () => {
   const { data: todos } = useIndexedDB<Todo>({
     name: 'todos',
     key: ['todos'],
-    fn: ({ getAll }) => getAll()
+    fn: ({ getAll }) => getAll(),
   })
 
   const {
@@ -108,7 +92,7 @@ const Todos = () => {
 
   return (
     <div>
-      {todos?.map(todo => (
+      {todos?.map((todo) => (
         <div key={todo.id}>
           <span>{todo.title}</span>
           <button onClick={() => deleteTodo(todo.id)}>Delete</button>
