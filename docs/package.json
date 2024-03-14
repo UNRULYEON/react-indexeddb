@@ -5,7 +5,8 @@
     "build": "next build",
     "start": "next start",
     "format:check": "prettier . --check --ignore-path ../.prettierignore",
-    "format:fix": "prettier . --write --ignore-path ../.prettierignore"
+    "format:fix": "prettier . --write --ignore-path ../.prettierignore",
+    "pre-commit": "npx lint-staged"
   },
   "dependencies": {
     "next": "^13.0.6",
