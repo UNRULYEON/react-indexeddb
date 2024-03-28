@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { IndexedDBContext } from '@/contexts/IndexedDBProvider'
+import { invalidationManager } from '@/singletons'
 
 export const useInvalidate = () => {
   const context = useContext(IndexedDBContext)
@@ -8,6 +9,6 @@ export const useInvalidate = () => {
     throw new Error('useIndexedDB must be used within an IndexedDBProvider')
 
   return {
-    invalidate: context.invalidateKeys,
+    invalidate: invalidationManager.invalidate,
   }
 }

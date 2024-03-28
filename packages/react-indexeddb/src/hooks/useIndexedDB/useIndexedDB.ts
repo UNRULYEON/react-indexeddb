@@ -1,6 +1,7 @@
 import { useContext, useState, useCallback, useEffect } from 'react'
 import { Key, Get, GetAll } from '@/types'
 import { IndexedDBContext } from '@/contexts/IndexedDBProvider'
+import { invalidationManager } from '@/singletons'
 
 type Options = {
   enabled: boolean
@@ -24,16 +25,18 @@ export const useIndexedDB = <T>({
     throw new Error('useIndexedDB must be used within an IndexedDBProvider')
 
   const [data, setData] = useState<T | undefined>(undefined)
+  const [error, setError] = useState<Error | undefined>(undefined)
 
   const get = useCallback<Get<T>>(
-    (key) => {
-      return new Promise((resolve, reject) => {
+    (key) =>
+      new Promise((resolve, reject) => {
         if (!context.db) return reject()
 
         const transaction = (context.db as IDBDatabase).transaction(
           name,
           'readonly',
         )
+
         const store = transaction.objectStore(name)
 
         const request = store.get(key)
@@ -45,39 +48,40 @@ export const useIndexedDB = <T>({
         request.onerror = (event) => {
           reject(event)
         }
-      })
-    },
+      }),
     [context.db, name],
   )
 
-  const getAll = useCallback(() => {
-    return new Promise<T>((resolve, reject) => {
-      if (!context.db) return reject()
+  const getAll = useCallback(
+    () =>
+      new Promise<T>((resolve, reject) => {
+        if (!context.db) return reject()
 
-      const transaction = (context.db as IDBDatabase).transaction(
-        name,
-        'readonly',
-      )
-      const store = transaction.objectStore(name)
+        const transaction = (context.db as IDBDatabase).transaction(
+          name,
+          'readonly',
+        )
+        const store = transaction.objectStore(name)
 
-      const request = store.getAll()
+        const request = store.getAll()
 
-      request.onsuccess = (event) => {
-        resolve((event.target as IDBRequest<T>).result)
-      }
+        request.onsuccess = (event) => {
+          resolve((event.target as IDBRequest<T>).result)
+        }
 
-      request.onerror = (event) => {
-        reject(event)
-      }
-    })
-  }, [context.db, name])
+        request.onerror = (event) => {
+          reject(event)
+        }
+      }),
+    [context.db, name],
+  )
 
   const runFn = async () => {
     if (!context.db) return
 
-    const result = await fn({ get, getAll })
-
-    setData(result)
+    fn({ get, getAll })
+      .then((result) => setData(result))
+      .catch((error) => setError(error))
   }
 
   const invalidationCallback = () => {
@@ -88,10 +92,16 @@ export const useIndexedDB = <T>({
     if (!context.db || !enabled) return
 
     runFn()
-    context.registerInvalidationCallback(key, invalidationCallback)
-  }, [context.db, enabled])
+
+    invalidationManager.registerCallback(key, invalidationCallback)
+
+    return () => {
+      invalidationManager.unregisterCallback(key, invalidationCallback)
+    }
+  }, [context.db, enabled, key])
 
   return {
     data,
+    error,
   }
 }

@@ -1,5 +1,3 @@
-export type Key = (number | string | undefined)[]
+export type Key = (number | string)[]
 
 export type Listener = () => void
-
-export type InvalidateCallback = () => void

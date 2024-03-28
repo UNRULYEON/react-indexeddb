@@ -1,6 +1,7 @@
 import { useContext, useCallback } from 'react'
 import { IndexedDBContext } from '@/contexts/IndexedDBProvider'
 import { Add, Put, Remove, Clear } from '@/types'
+import { invalidationManager } from '@/singletons'
 
 type UseMutateIndexedDBParameters = {
   name: string
@@ -17,8 +18,8 @@ export const useMutateIndexedDB = <I, O>({
     )
 
   const add = useCallback<Add<I, O>>(
-    (value, key) => {
-      return new Promise<O>((resolve, reject) => {
+    (value, key) =>
+      new Promise<O>((resolve, reject) => {
         if (!context.db) return reject()
 
         const transaction = context.db.transaction(name, 'readwrite')
@@ -37,14 +38,13 @@ export const useMutateIndexedDB = <I, O>({
         request.onerror = (event) => {
           reject(event)
         }
-      })
-    },
+      }),
     [context.db, name],
   )
 
   const put = useCallback<Put<I, O>>(
-    (value, key) => {
-      return new Promise<O>((resolve, reject) => {
+    (value, key) =>
+      new Promise<O>((resolve, reject) => {
         if (!context.db) return reject()
 
         const transaction = context.db.transaction(name, 'readwrite')
@@ -63,14 +63,13 @@ export const useMutateIndexedDB = <I, O>({
         request.onerror = (event) => {
           reject(event)
         }
-      })
-    },
+      }),
     [context.db, name],
   )
 
   const remove = useCallback<Remove>(
-    (key) => {
-      return new Promise<void>((resolve, reject) => {
+    (key) =>
+      new Promise<void>((resolve, reject) => {
         if (!context.db) return reject()
 
         const transaction = context.db.transaction(name, 'readwrite')
@@ -85,35 +84,36 @@ export const useMutateIndexedDB = <I, O>({
         request.onerror = (event) => {
           reject(event)
         }
-      })
-    },
+      }),
     [context.db, name],
   )
 
-  const clear = useCallback<Clear>(() => {
-    return new Promise<void>((resolve, reject) => {
-      if (!context.db) return reject()
+  const clear = useCallback<Clear>(
+    () =>
+      new Promise<void>((resolve, reject) => {
+        if (!context.db) return reject()
 
-      const transaction = context.db.transaction(name, 'readwrite')
-      const store = transaction.objectStore(name)
+        const transaction = context.db.transaction(name, 'readwrite')
+        const store = transaction.objectStore(name)
 
-      const request = store.clear()
+        const request = store.clear()
 
-      request.onsuccess = () => {
-        resolve()
-      }
+        request.onsuccess = () => {
+          resolve()
+        }
 
-      request.onerror = (event) => {
-        reject(event)
-      }
-    })
-  }, [context.db, name])
+        request.onerror = (event) => {
+          reject(event)
+        }
+      }),
+    [context.db, name],
+  )
 
   return {
     add,
     put,
     remove,
     clear,
-    invalidate: context.invalidateKeys,
+    invalidate: invalidationManager.invalidate,
   }
 }

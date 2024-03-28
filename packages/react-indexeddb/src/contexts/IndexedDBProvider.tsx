@@ -1,27 +1,21 @@
-import { ReactNode, createContext, useEffect, useRef, useState } from 'react'
-import { IndexedDBConfig, InvalidateCallback, Key } from '@/types'
+import { ReactNode, createContext, useEffect, useState } from 'react'
+import { IndexedDBConfig } from '@/types'
 
 type IndexedDBState = {
   db: IDBDatabase | undefined
-  registerInvalidationCallback: (
-    keys: Key,
-    callback: InvalidateCallback,
-  ) => void
-  invalidateKeys: (keys: Key) => void
 }
 
 export const IndexedDBContext = createContext<IndexedDBState | undefined>(
   undefined,
 )
 
-type IndexedDBProps = {
+export type IndexedDBProps = {
   config: IndexedDBConfig
   children: ReactNode
 }
 
 export const IndexedDBProvider = ({ config, children }: IndexedDBProps) => {
   const [db, setDb] = useState<IDBDatabase | undefined>(undefined)
-  const keyManager = useRef(new Map<string, InvalidateCallback[]>())
 
   useEffect(() => {
     if (!db) initialise(config)
@@ -59,7 +53,11 @@ export const IndexedDBProvider = ({ config, children }: IndexedDBProps) => {
         )
 
         objectStore.indices?.forEach((index) => {
-          store.createIndex(index.name, index.keyPath, index.options)
+          store.createIndex(
+            index.name,
+            index.keyPath ?? index.name,
+            index.options,
+          )
         })
       })
     }
@@ -74,31 +72,8 @@ export const IndexedDBProvider = ({ config, children }: IndexedDBProps) => {
     }
   }
 
-  const registerInvalidationCallback = (
-    keys: Key,
-    callback: InvalidateCallback,
-  ) => {
-    const keysString = JSON.stringify(keys)
-
-    if (!keyManager.current.has(keysString)) {
-      keyManager.current.set(keysString, [])
-    }
-
-    keyManager.current.get(keysString)?.push(callback)
-  }
-
-  const invalidateKeys = (keys: Key) => {
-    const keysString = JSON.stringify(keys)
-
-    if (!keyManager.current.has(keysString)) return
-
-    keyManager.current.get(keysString)?.forEach((callback) => callback())
-  }
-
   return (
-    <IndexedDBContext.Provider
-      value={{ db, registerInvalidationCallback, invalidateKeys }}
-    >
+    <IndexedDBContext.Provider value={{ db }}>
       {children}
     </IndexedDBContext.Provider>
   )
