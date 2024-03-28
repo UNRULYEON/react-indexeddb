@@ -3,7 +3,7 @@ export type ObjectStore = {
   options?: IDBObjectStoreParameters
   indices?: {
     name: string
-    keyPath: string
+    keyPath?: string | string[]
     options?: IDBIndexParameters
   }[]
 }

@@ -12,6 +12,9 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
+    "test": "turbo test",
+    "test:coverage": "turbo test:coverage",
+    "test:ui": "turbo test:ui",
     "lint:check": "turbo lint:check",
     "lint:fix": "turbo lint:fix",
     "format:check": "turbo format:check",
@@ -25,7 +28,8 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
-    "turbo": "latest"
+    "turbo": "latest",
+    "vitest": "^1.4.0"
   },
   "packageManager": "pnpm@8.10.3",
   "engines": {
