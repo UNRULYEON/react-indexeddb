@@ -1,6 +1,6 @@
 {
   "name": "@unrulyeon/react-indexeddb",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "React Hooks for IndexedDB",
   "author": "Amar Kisoensingh",
   "repository": "github:UNRULYEON/react-indexeddb",
