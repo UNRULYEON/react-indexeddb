@@ -1,3 +1,3 @@
-export type Key = (number | string)[]
+export type Key = (number | string | undefined)[]
 
 export type Listener = () => void
