@@ -1,5 +1,11 @@
 # @unrulyeon/react-indexeddb
 
+## 2.0.1
+
+### Patch Changes
+
+- eddfe96: Fix rerender issue with useIndexedDB hook
+
 ## 2.0.0
 
 ### Major Changes
