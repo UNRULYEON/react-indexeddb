@@ -92,13 +92,17 @@ export const useIndexedDB = <T>({
     if (!context.db || !enabled) return
 
     runFn()
+  }, [context.db, enabled])
+
+  useEffect(() => {
+    if (!enabled) return
 
     invalidationManager.registerCallback(key, invalidationCallback)
 
     return () => {
       invalidationManager.unregisterCallback(key, invalidationCallback)
     }
-  }, [context.db, enabled, key])
+  }, [enabled, key])
 
   return {
     data,
