@@ -7,4 +7,4 @@ dist
 .vercel
 
 # Build Outputs
-.next/
+**/.next/

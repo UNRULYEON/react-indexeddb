@@ -9,10 +9,30 @@ import { Callout, Tabs, Tab } from 'nextra-theme-docs'
 ## Installation
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
-  <Tab>```bash copy pnpm add @unrulyeon/react-indexeddb ```</Tab>
-  <Tab>```bash copy npm i @unrulyeon/react-indexeddb ```</Tab>
-  <Tab>```bash copy yarn add @unrulyeon/react-indexeddb ```</Tab>
-  <Tab>```bash copy bun add @unrulyeon/react-indexeddb ```</Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```bash copy
+    pnpm add @unrulyeon/react-indexeddb
+    ```
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```bash copy
+    npm i @unrulyeon/react-indexeddb
+    ```
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```bash copy
+    yarn add @unrulyeon/react-indexeddb
+    ```
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```bash copy
+    bun add @unrulyeon/react-indexeddb
+    ```
+  </Tab>
 </Tabs>
 
 <Callout emoji="ℹ️">
@@ -25,7 +45,7 @@ import { Callout, Tabs, Tab } from 'nextra-theme-docs'
 Wrap your application with `IndexedDBProvider` and provide your configuration to it:
 
 ```tsx
-import { useIndexedDB, IndexedDBConfig } from '@unrulyeon/react-indexeddb'
+import { IndexedDBProvider, IndexedDBConfig } from '@unrulyeon/react-indexeddb'
 
 export const indexedDBConfig: IndexedDBConfig = {
   name: 'todos-app',
